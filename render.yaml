@@ -1,8 +1,17 @@
 services:
   - type: worker
-    name: bot_recordatorios
+    name: bot-recordatorios
     env: python
     plan: free
-    buildCommand: "pip install -r requirements.txt"
-    startCommand: "python recordatorios_auto.py"
+    buildCommand: pip install -r requirements.txt
+    startCommand: python recordatorios_auto.py
     autoDeploy: true
+    envVars:
+      - key: ACCOUNT_SID
+        sync: false
+      - key: AUTH_TOKEN
+        sync: false
+      - key: TWILIO_PHONE_NUMBER
+        sync: false
+      - key: DESTINATARIOS
+        sync: false
