@@ -1,0 +1,8 @@
+services:
+  - type: worker
+    name: bot_recordatorios
+    env: python
+    plan: free
+    buildCommand: "pip install -r requirements.txt"
+    startCommand: "python recordatorios_auto.py"
+    autoDeploy: true
