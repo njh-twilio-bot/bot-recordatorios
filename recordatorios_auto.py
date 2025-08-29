@@ -53,12 +53,12 @@ def enviar_recordatorio():
 
 # Programar el envío cada hora (puedes cambiar a every(1).minutes para probar)
 #schedule.every().hour.do(enviar_recordatorio)
-schedule.every().day.at("21:46").do(enviar_recordatorio)
+schedule.every().day.at("22:56").do(enviar_recordatorio)
 
 #schedule.every(1).hora.do(enviar_recordatorio)
 # schedule.every(1).minutes.do(enviar_recordatorio)  # Descomenta para pruebas rápidas
 
-print("⏳ Bot activo. Enviando recordatorios a las 21:46 horas...")
+print("⏳ Bot activo. Enviando recordatorios a las 22:56 horas...")
 
 # Mantener el bot activo
 while True:
