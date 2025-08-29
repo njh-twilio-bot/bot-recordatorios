@@ -15,11 +15,11 @@ from_whatsapp_number = os.getenv('TWILIO_WHATSAPP_NUMBER')
 
 lista_numeros = [
     'whatsapp:+573004011292',  # Tu número
-    'whatsapp:+573005997275',  # Isnardo
-    'whatsapp:+573133120839',  # Alfonso
-    'whatsapp:+573013703799',  # Hermes
-    'whatsapp:+573219159178',  # José Moreno
-    'whatsapp:+573193313819',  # Andrés
+    #'whatsapp:+573005997275',  # Isnardo
+    #'whatsapp:+573133120839',  # Alfonso
+    #'whatsapp:+573013703799',  # Hermes
+    #'whatsapp:+573219159178',  # José Moreno
+    #'whatsapp:+573193313819',  # Andrés
 ]
 
 # Crear cliente de Twilio
@@ -53,12 +53,12 @@ def enviar_recordatorio():
 
 # Programar el envío cada hora (puedes cambiar a every(1).minutes para probar)
 #schedule.every().hour.do(enviar_recordatorio)
-schedule.every().day.at("19:00").do(enviar_recordatorio)
+schedule.every().day.at("21:46").do(enviar_recordatorio)
 
 #schedule.every(1).hora.do(enviar_recordatorio)
 # schedule.every(1).minutes.do(enviar_recordatorio)  # Descomenta para pruebas rápidas
 
-print("⏳ Bot activo. Enviando recordatorios a las 19:00 horas...")
+print("⏳ Bot activo. Enviando recordatorios a las 21:46 horas...")
 
 # Mantener el bot activo
 while True:
