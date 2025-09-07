@@ -1,3 +1,6 @@
+import datetime
+print(f"🚀 Bot iniciado en Render a las {datetime.datetime.now()}")
+
 from twilio.rest import Client
 import schedule
 import time
@@ -20,6 +23,7 @@ lista_numeros = [
     #'whatsapp:+573013703799',  # Hermes
     #'whatsapp:+573219159178',  # José Moreno
     #'whatsapp:+573193313819',  # Andrés
+    #'whatsapp:+573125593931', # Marylú
 ]
 
 # Crear cliente de Twilio
@@ -53,12 +57,12 @@ def enviar_recordatorio():
 
 # Programar el envío cada hora (puedes cambiar a every(1).minutes para probar)
 #schedule.every().hour.do(enviar_recordatorio)
-schedule.every().day.at("22:56").do(enviar_recordatorio)
+schedule.every().day.at("20:40").do(enviar_recordatorio)
 
 #schedule.every(1).hora.do(enviar_recordatorio)
 # schedule.every(1).minutes.do(enviar_recordatorio)  # Descomenta para pruebas rápidas
 
-print("⏳ Bot activo. Enviando recordatorios a las 22:56 horas...")
+print("⏳ Bot activo. Enviando recordatorios a las 20:40 horas...")
 
 # Mantener el bot activo
 while True:
