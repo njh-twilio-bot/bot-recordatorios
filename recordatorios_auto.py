@@ -1,51 +1,52 @@
+# =========================
+# Bot de recordatorios con Twilio + Render
+# Última depuración: septiembre 26
+# =========================
 
-# =========================
-# Código antiguo
-# =========================
-#Último cambio con fecha septiembre 26
 import os
 import datetime
-print(f"🚀 Bot iniciado en Render a las {datetime.datetime.now()}")
-print("📋 Variables de entorno detectadas en Render:")
-print("TWILIO_ACCOUNT_SID:", os.getenv("TWILIO_ACCOUNT_SID"))
-print("TWILIO_AUTH_TOKEN:", os.getenv("TWILIO_AUTH_TOKEN"))
-print("TWILIO_WHATSAPP_NUMBER:", os.getenv("TWILIO_WHATSAPP_NUMBER"))
-print("TO_WHATSAPP_NUMBER:", os.getenv("TO_WHATSAPP_NUMBER"))
-
-from twilio.rest import Client
-# print("Este era el código anterior")
-# Aquí seguía tu lógica de recordatorios...
-from twilio.rest import Client
 import schedule
 import time
 import random
+from twilio.rest import Client
 from dotenv import load_dotenv
-# Cargar variables de entorno desde .env
-load_dotenv()
 
-# Leer las credenciales
-account_sid = os.getenv('TWILIO_ACCOUNT_SID')
-auth_token = os.getenv('TWILIO_AUTH_TOKEN')
-from_whatsapp_number = os.getenv('TWILIO_WHATSAPP_NUMBER')
+# =========================
+# 1. Cargar variables de entorno
+# =========================
+load_dotenv()  # Render inyecta las variables, pero lo dejamos por compatibilidad local
 
+account_sid = os.getenv("TWILIO_ACCOUNT_SID")
+auth_token = os.getenv("TWILIO_AUTH_TOKEN")
+from_whatsapp_number = os.getenv("TWILIO_WHATSAPP_NUMBER")
+
+# Lista de destinatarios
 lista_numeros = [
     'whatsapp:+573004011292',  # Tu número
-    #'whatsapp:+573005997275',  # Isnardo
-    #'whatsapp:+573133120839',  # Alfonso
-    #'whatsapp:+573013703799',  # Hermes
-    #'whatsapp:+573219159178',  # José Moreno
-    #'whatsapp:+573193313819',  # Andrés
-    #'whatsapp:+573125593931', # Marylú
-    'whatsapp:+573132744436', #CAR
+    'whatsapp:+573132744436',  # CAR
 ]
 
-# Crear cliente de Twilio
-print(f"SID: {account_sid}")
-print(f"Token: {auth_token[:6]}...")  # No mostramos todo por seguridad
-print(f"Números a enviar: {lista_numeros}")
+# =========================
+# 2. Verificación de variables
+# =========================
+print(f"🚀 Bot iniciado en Render a las {datetime.datetime.now()}")
+print("📋 Variables de entorno detectadas en Render:")
+print("TWILIO_ACCOUNT_SID:", account_sid[:6] + "..." if account_sid else None)
+print("TWILIO_AUTH_TOKEN:", auth_token[:6] + "..." if auth_token else None)
+print("TWILIO_WHATSAPP_NUMBER:", from_whatsapp_number)
+print("Lista de números destino:", lista_numeros)
+
+if not all([account_sid, auth_token, from_whatsapp_number]):
+    raise ValueError("❌ Error: Falta alguna variable de entorno obligatoria.")
+
+# =========================
+# 3. Cliente Twilio
+# =========================
 client = Client(account_sid, auth_token)
 
-# Función para enviar mensaje aleatorio desde el archivo
+# =========================
+# 4. Función para enviar recordatorio
+# =========================
 def enviar_recordatorio():
     try:
         with open("mensajes.txt", "r", encoding="utf-8") as file:
@@ -63,72 +64,25 @@ def enviar_recordatorio():
                 body=mensaje,
                 to=numero
             )
-            print(f"✅ Mensaje enviado a {numero}. SID: {message.sid}")
+            print(f"✅ Mensaje enviado a {numero}. SID: {message.sid[:6]}...")
 
     except Exception as e:
         print(f"❌ Error al enviar el mensaje: {e}")
 
-# Programar el envío cada hora (puedes cambiar a every(1).minutes para probar)
-#schedule.every().hour.do(enviar_recordatorio)
+# =========================
+# 5. Programación de tareas
+# =========================
+# Para pruebas rápidas: cada minuto
+# schedule.every(1).minutes.do(enviar_recordatorio)
+
+# Para producción: a las 00:53
 schedule.every().day.at("00:53").do(enviar_recordatorio)
 
-#schedule.every(1).hora.do(enviar_recordatorio)
-# schedule.every(1).minutes.do(enviar_recordatorio)  # Descomenta para pruebas rápidas
+print("⏳ Bot activo. Enviará recordatorios a la hora programada...")
 
-print("⏳ Bot activo. Enviando recordatorios a las 00:53 horas...")
-
-# Mantener el bot activo
+# =========================
+# 6. Mantener el bot corriendo
+# =========================
 while True:
     schedule.run_pending()
-    time.sleep(10)  
-    
-    """
-    
-    
-# =========================
-# Nuevo código listo para Render
-# =========================
-import os
-from twilio.rest import Client
-from datetime import datetime
-
-# =========================
-# Carga de variables de entorno
-# =========================
-account_sid = os.getenv("TWILIO_ACCOUNT_SID")
-auth_token = os.getenv("TWILIO_AUTH_TOKEN")
-twilio_number = os.getenv("TWILIO_WHATSAPP_NUMBER")
-to_number = os.getenv("TO_WHATSAPP_NUMBER")
-
-# =========================
-# Verificación de variables
-# =========================
-if not all([account_sid, auth_token, twilio_number, to_number]):
-    raise ValueError("❌ Error: Alguna variable de entorno no está definida correctamente.")
-
-print(f"✅ Variables de entorno cargadas correctamente. SID: {account_sid[:6]}...")
-
-# =========================
-# Inicialización del bot
-# =========================
-print(f"🚀 Bot iniciado en Render a las {datetime.now()}")
-
-# =========================
-# Envío de mensaje de prueba
-# =========================
-try:
-    client = Client(account_sid, auth_token)
-    message = client.messages.create(
-        body="🚀 Mensaje de prueba desde Render",
-        from_=f"whatsapp:{twilio_number}",
-        to=f"whatsapp:{to_number}"
-    )
-    print(f"✅ Mensaje enviado correctamente. SID: {message.sid[:6]}...")
-except Exception as e:
-    print(f"❌ Error al enviar mensaje: {e}")
-
-# =========================
-# Aquí podrías seguir con tu lógica de recordatorios programados
-# =========================
-
-"""
+    time.sleep(10)
