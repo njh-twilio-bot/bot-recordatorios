@@ -2,30 +2,24 @@
 # =========================
 # Código antiguo
 # =========================
+#Último cambio con fecha septiembre 26
 import os
-from twilio.rest import Client
-# print("Este era el código anterior")
-# Aquí seguía tu lógica de recordatorios...
-
 import datetime
 print(f"🚀 Bot iniciado en Render a las {datetime.datetime.now()}")
-
-from twilio.rest import Client
-import schedule
-import time
-import random
-from dotenv import load_dotenv
-import os
-#Estos son los seis renglones que agregué hoy 25 de septiembre
-import os
-
 print("📋 Variables de entorno detectadas en Render:")
 print("TWILIO_ACCOUNT_SID:", os.getenv("TWILIO_ACCOUNT_SID"))
 print("TWILIO_AUTH_TOKEN:", os.getenv("TWILIO_AUTH_TOKEN"))
 print("TWILIO_WHATSAPP_NUMBER:", os.getenv("TWILIO_WHATSAPP_NUMBER"))
 print("TO_WHATSAPP_NUMBER:", os.getenv("TO_WHATSAPP_NUMBER"))
 
-
+from twilio.rest import Client
+# print("Este era el código anterior")
+# Aquí seguía tu lógica de recordatorios...
+from twilio.rest import Client
+import schedule
+import time
+import random
+from dotenv import load_dotenv
 # Cargar variables de entorno desde .env
 load_dotenv()
 
@@ -76,12 +70,12 @@ def enviar_recordatorio():
 
 # Programar el envío cada hora (puedes cambiar a every(1).minutes para probar)
 #schedule.every().hour.do(enviar_recordatorio)
-schedule.every().day.at("10:22").do(enviar_recordatorio)
+schedule.every().day.at("00:53").do(enviar_recordatorio)
 
 #schedule.every(1).hora.do(enviar_recordatorio)
 # schedule.every(1).minutes.do(enviar_recordatorio)  # Descomenta para pruebas rápidas
 
-print("⏳ Bot activo. Enviando recordatorios a las 10:22 horas...")
+print("⏳ Bot activo. Enviando recordatorios a las 00:53 horas...")
 
 # Mantener el bot activo
 while True:
