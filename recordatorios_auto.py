@@ -10,6 +10,9 @@ import time
 import random
 from twilio.rest import Client
 from dotenv import load_dotenv
+# Última modificación
+import functools
+print = functools.partial(print, flush=True)
 
 # =========================
 # 1. Cargar variables de entorno
